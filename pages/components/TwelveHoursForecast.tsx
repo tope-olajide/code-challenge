@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 import NavigationBar from "./NavigationBar";
 import Loader from "./Loader";
+import Footer from "./Footer";
+import { ICityInfo, ITwelveHoursForecastProps } from "../types";
 
-const TwelveHoursForecast = (props) => {
-    const [data, setData] = useState<Array<object>>([])
+const TwelveHoursForecast = (props:ITwelveHoursForecastProps) => {
+    const [data, setData] = useState<Array<ICityInfo>>([])
 
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -18,18 +20,14 @@ const TwelveHoursForecast = (props) => {
             setData(response);
 
             setIsLoading(false);
-            //console.log(response.hourly);
-            /* const twelveHours = response.hourly.map((eachHour)=>{
-                const dateObject = new Date(eachHour.dt*1000)
-                        return dateObject.toLocaleString("en-US", {hour: "numeric"})
-            }) */
-            const twelveHours = response.list.filter((eachHour) => {
+ 
+            const twelveHoursForecast = response.list.filter((eachHour:ICityInfo) => {
                 if (new Date(props.day * 1000).toLocaleDateString("en-US") === new Date(eachHour.dt * 1000).toLocaleDateString("en-US")) {
                     return new Date(eachHour.dt * 1000).toLocaleString("en-US")
                 }
             })
-            setData(twelveHours);
-            console.log(twelveHours);
+            setData(twelveHoursForecast);
+            console.log(twelveHoursForecast);
         }
         fetchData()
             .catch(() => {
@@ -40,26 +38,32 @@ const TwelveHoursForecast = (props) => {
 
     if (isLoading) {
         return (
-            <>
+            <><section className="main-container">
                 <NavigationBar />
-                <button className="back-button" onClick={props.closeFiveDaysForecasts}>Back</button>
-                <section className="main-container">
+                <button className="back-button" onClick={props.closeTwelveHoursForecasts}>Back</button>
+                <section className="main-contents">
                     <Loader />
                 </section>
-
+                <Footer />
+            </section>
             </>
-
         )
     }
     if (isError) {
         return (
             <>
-                <NavigationBar />
-                <section className="main-container">
-                    <button onClick={props.closeFiveDaysForecasts}>Back</button>
-                    <h1>
-                        Error
-                    </h1>
+                <section className="main-section">
+                    <NavigationBar /><button className="back-button" onClick={props.closeTwelveHoursForecasts}>Back</button>
+                    <section className="main-contents">
+
+                        <div className="card-container">
+                            <div className="card no-city-card">
+                                <h1>Network Error ⚠️</h1>
+                                <p>Unable To Fetch Forecast 😞</p>
+                            </div>
+                        </div>
+                    </section>
+                    <Footer />
                 </section>
             </>
         )
@@ -67,29 +71,31 @@ const TwelveHoursForecast = (props) => {
     }
     return (
         <>
-            <NavigationBar />
-            <section className="main-container">
-                <div className="back-button-and-city-name-container">
-                    <button className="back-button" onClick={props.closeTwelveHoursForecasts}>&larr;</button>
-                    <h1 className="city-name"> 12 hour forecast View for {new Date(props.day * 1000).toLocaleDateString("en", { weekday: "long" })} - <b>{props.city}</b> </h1>
-                    <h1></h1> <h1></h1>
-                </div>
-                <section className="card-container">
-                    {
-                        data.slice(0, 5).map((city: any, index) => {
-                            return (
-                                <div key={index} className="card">
-                                    <h3 className="card-title">{new Date(city.dt * 1000).toLocaleTimeString("en-US")}</h3>
-                                    <picture>
-                                        <img style={{ "color": "green" }} src={` http://openweathermap.org/img/wn/${city.weather[0]["icon"]}@4x.png`} alt="" />
-                                        <h2 className="temperature">{Math.round(city.main.temp)}<sup>o</sup><span><p className="celcius">C</p></span></h2>
-                                    </picture>
 
-                                    <p className="weather-description">{city.weather[0]["description"]}</p>
-                                </div>)
-                        })
-                    }
-                </section></section>
+            <section className="main-container"><NavigationBar />
+                <div className="main-contents">
+                    <button className="back-button" onClick={props.closeTwelveHoursForecasts}>Back</button>
+                    <h1 className="city-name"> 12 hour forecast View for {new Date(props.day * 1000)
+                        .toLocaleDateString("en", { weekday: "long" })} - <b>{props.cityName}</b> </h1>
+                    <section className="card-container">
+                        {
+                            data.slice(0, 5).map((cityInfo, index) => {
+                                return (
+                                    <div key={index} className="card">
+                                        <h3 className="card-title">{new Date(cityInfo.dt * 1000).toLocaleTimeString("en-US")}</h3>
+                                        <picture>
+                                            <img src={` http://openweathermap.org/img/wn/${cityInfo.weather[0]["icon"]}@4x.png`} alt="" />
+                                            <h2 className="temperature">{Math.round(cityInfo.main.temp)}<sup>o</sup><span><p className="celcius">C</p></span></h2>
+                                        </picture>
+
+                                        <p className="weather-description">{cityInfo.weather[0]["description"]}</p>
+                                    </div>)
+                            })
+                        }
+                    </section>
+                </div>
+                <Footer />
+            </section>
         </>
     )
 }
