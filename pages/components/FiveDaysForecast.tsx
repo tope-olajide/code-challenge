@@ -3,16 +3,19 @@ import TwelveHoursForecast from "./TwelveHoursForecast";
 import Loader from "./Loader";
 import NavigationBar from "./NavigationBar";
 import Footer from "./Footer";
-const FiveDaysForecast = (props) => {
-    const [data, setData] = useState<Array<object>>([]);
-    const [day, setDay] = useState("");
+import { IFiveDaysForecastDataObjects, IFiveDaysForecastProps } from "../types";
+
+
+const FiveDaysForecast = (props: IFiveDaysForecastProps) => {
+    const [data, setData] = useState<Array<IFiveDaysForecastDataObjects>>([]);
+    const [day, setDay] = useState(0);
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const FiveDaysForecastUrl = props.city!.url
     useEffect(() => {
-        console.log(props.city.url)
         const fetchData = async () => {
             setIsLoading(true)
-            const data = await fetch(props.city.url);
+            const data = await fetch(FiveDaysForecastUrl);
             const response = await data.json();
             setIsLoading(false)
             setData(response.daily);
@@ -23,16 +26,12 @@ const FiveDaysForecast = (props) => {
                 setIsLoading(false)
                 setIsError(true)
             });
-    }, [props.city.url])
+    }, [FiveDaysForecastUrl])
 
     const [isTwelveHoursForecast, setIsTwelveHoursForecast] = useState(false);
-    const [twelveHoursForecastURL, setTwelveHoursForecastURL] = useState("")
-    const displayTwelveHoursForecast = (url) => {
+    const displayTwelveHoursForecast = (date: number) => {
+        setDay(date)
         setIsTwelveHoursForecast(true);
-        const url2 = `https://api.openweathermap.org/data/2.5/forecast?lat=${props.city.latitude}&lon=${props.city.longitude}&appid=4d8fb5b93d4af21d66a2948710284366&units=metric`
-        // const ur = `https://api.openweathermap.org/data/2.5/onecall?lat=${props.lat}&lon=${props.lon}&exclude=current,daily,minutely,alerts&units=metric&appid=4d8fb5b93d4af21d66a2948710284366`
-        setTwelveHoursForecastURL(url2)
-        setDay(url)
     }
     const closeTwelveHoursForecasts = () => {
         setIsTwelveHoursForecast(false);
@@ -43,7 +42,7 @@ const FiveDaysForecast = (props) => {
                 <section className="main-section">
                     <NavigationBar />
                     <section className="main-contents">
-                        <button className="back-button" onClick={props.closeFiveDaysForecasts}>&larr;</button>
+                        <button className="back-button" onClick={props.closeFiveDaysForecasts}>Back</button>
                         <Loader />
                     </section>
                     <Footer />
@@ -57,10 +56,13 @@ const FiveDaysForecast = (props) => {
                 <section className="main-section">
                     <NavigationBar />
                     <section className="main-contents">
-                        <button className="back-button" onClick={props.closeFiveDaysForecasts}>&larr;</button>
-                        <h1>
-                            Error
-                        </h1>
+                        <button className="back-button" onClick={props.closeFiveDaysForecasts}>Back</button>
+                        <div className="card-container">
+                            <div className="card no-city-card">
+                                <h1>Network Error ⚠️</h1>
+                                <p>Unable To Fetch Forecast 😞</p>
+                            </div>
+                        </div>
                     </section>
                     <Footer />
                 </section>
@@ -70,7 +72,12 @@ const FiveDaysForecast = (props) => {
     if (isTwelveHoursForecast) {
         return (
             <>
-                <TwelveHoursForecast twelveHoursForecastURL={`https://api.openweathermap.org/data/2.5/forecast?lat=${props.city.latitude}&lon=${props.city.longitude}&appid=${process.env.API_KEY}&units=metric`} closeTwelveHoursForecasts={closeTwelveHoursForecasts} day={day} city={props.city.name} />
+                <TwelveHoursForecast
+                    twelveHoursForecastURL={`https://api.openweathermap.org/data/2.5/forecast?lat=${props.city!.latitude}&lon=${props.city!.longitude}&appid=${process.env.API_KEY}&units=metric`}
+                    closeTwelveHoursForecasts={closeTwelveHoursForecasts}
+                    day={day}
+                    cityName={props.city!.name}
+                />
             </>
         )
     }
@@ -79,13 +86,13 @@ const FiveDaysForecast = (props) => {
             <NavigationBar />
             <section className="main-container">
                 <section className="main-contents">
-                    <button className="back-button" onClick={props.closeFiveDaysForecasts}>&larr;</button>
-                    
-                        <h1 className="city-name">  5-day weather forecast - <b>{props.city.name}</b>  </h1>
-                    
+                    <button className="back-button" onClick={props.closeFiveDaysForecasts}>Back</button>
+
+                    <h1 className="city-name">  5-day weather forecast - <b>{props.city!.name}</b>  </h1>
+
                     <section className="card-container">
                         {
-                            data.slice(0, 5).map((day: any, index) => {
+                            data.slice(0, 5).map((day, index) => {
                                 return (
                                     <div key={index} onClick={() => displayTwelveHoursForecast(day.dt)} className="card">
                                         <p className="card-title">{day.name}</p>
@@ -94,15 +101,13 @@ const FiveDaysForecast = (props) => {
                                             <img src={`http://openweathermap.org/img/wn/${day.weather[0]["icon"]}@4x.png`} alt="" />
                                         </picture>
                                         <h2 className="temperature">{Math.round(day.temp.day)}<sup>o</sup><span><p className="celcius">C</p></span></h2>
-
                                         <p className="weather-description">{day.weather[0]["description"]}</p>
                                     </div>)
                             })
                         }
                     </section></section>
+                <Footer />
             </section>
-
-
         </>
     )
 }
