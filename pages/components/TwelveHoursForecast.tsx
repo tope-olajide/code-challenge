@@ -12,7 +12,6 @@ const TwelveHoursForecast = (props:ITwelveHoursForecastProps) => {
     useEffect(() => {
 
         const fetchData = async () => {
-            // console.log(props.day)
             setIsLoading(true)
             const data = await fetch(props.twelveHoursForecastURL);
             const response = await data.json();
@@ -40,8 +39,9 @@ const TwelveHoursForecast = (props:ITwelveHoursForecastProps) => {
         return (
             <><section className="main-container">
                 <NavigationBar />
-                <button className="back-button" onClick={props.closeTwelveHoursForecasts}>Back</button>
+                
                 <section className="main-contents">
+                    <button className="back-button" onClick={props.closeTwelveHoursForecasts}>Back</button>
                     <Loader />
                 </section>
                 <Footer />
@@ -75,7 +75,7 @@ const TwelveHoursForecast = (props:ITwelveHoursForecastProps) => {
             <section className="main-container"><NavigationBar />
                 <div className="main-contents">
                     <button className="back-button" onClick={props.closeTwelveHoursForecasts}>Back</button>
-                    <h1 className="city-name"> 12 hour forecast View for {new Date(props.day * 1000)
+                    <h1 className="forecast-title"> 12 hour forecast View for {new Date(props.day * 1000)
                         .toLocaleDateString("en", { weekday: "long" })} - <b>{props.cityName}</b> </h1>
                     <section className="card-container">
                         {

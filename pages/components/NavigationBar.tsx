@@ -23,7 +23,7 @@ const NavigationBar = () => {
                     <button onClick={() => { changeTheme(DataTheme.ThemeThree) }}></button>
 
                 </section>
-                <h3>Weather App</h3>
+                <h3 className="app-name">Weather App</h3>
                 <section className="themes-container-right">
                     <button onClick={() => { changeTheme(DataTheme.ThemeFour) }}></button>
                     <button onClick={() => { changeTheme(DataTheme.ThemeFive) }}></button>

@@ -88,7 +88,7 @@ const FiveDaysForecast = (props: IFiveDaysForecastProps) => {
                 <section className="main-contents">
                     <button className="back-button" onClick={props.closeFiveDaysForecasts}>Back</button>
 
-                    <h1 className="city-name">  5-day weather forecast - <b>{props.city!.name}</b>  </h1>
+                    <h1 className="forecast-title">  5-day weather forecast - <b>{props.city!.name}</b>  </h1>
 
                     <section className="card-container">
                         {
