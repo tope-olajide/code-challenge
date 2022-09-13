@@ -60,3 +60,9 @@ export interface ICityInfo {
         }
     ]
 }
+
+export interface ISearchCityResultProps{
+    foundCity:IWeatherInfo[];
+    closeCity():void;
+    displayFiveDaysForecast(city:IWeatherInfo):void
+}

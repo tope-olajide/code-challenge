@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import AddAndSearchCity from "./AddAndSearchCity";
 import FiveDaysForecast from "./FiveDaysForecast"
 import { IWeatherInfo } from "../types";
+import SearchCityResult from "./SearchCityResult";
 
 const AllCities = () => {
     const [enteredCity, setEnteredCity] = useState("");
@@ -34,7 +35,7 @@ const AllCities = () => {
         const duplicateCity = cities.filter((eachCity) => {
             return eachCity.name.toLowerCase() === enteredCity.toLowerCase()
         })
-        if (duplicateCity.length > 0) {
+        if (duplicateCity.length) {
             setAddCityError(`⚠️${enteredCity} has already been added`)
         }
         else if (!enteredCity) {
@@ -118,6 +119,9 @@ const AllCities = () => {
             setCurrentPage(currentPage + 1)
         }
     }
+    const closeCity = () => {
+        setIsSearchCity(false)
+    }
     if (!cities.length) {
         return (
             <>
@@ -133,6 +137,13 @@ const AllCities = () => {
                     </section>
                     <Footer />
                 </section>
+            </>
+        )
+    }
+    if (isSearchCity){
+        return (
+            <>
+            <SearchCityResult closeCity={closeCity} displayFiveDaysForecast={displayFiveDaysForecast} foundCity={foundCity}/>
             </>
         )
     }
