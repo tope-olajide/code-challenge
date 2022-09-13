@@ -7,7 +7,7 @@ body {
 }
 body {
   background: var(--background-color);
-  transition: all ease-in 1s;
+  transition: all ease-in .5s;
   height: 100%;
 }
 
