@@ -19,13 +19,11 @@ const AllCities = () => {
     const addCity = async (event: FormEvent) => {
         event.preventDefault();
         const duplicateCity = cities.filter((eachCity) => {
-           return eachCity.name.toLowerCase() === enteredCity.toLowerCase() 
-        
+            return eachCity.name.toLowerCase() === enteredCity.toLowerCase()
+
         })
         if (duplicateCity.length > 0) {
             setAddCityError(`⚠️${enteredCity} has already been added`)
-           
-            console.log(duplicateCity.length)
         }
         else if (!enteredCity) {
             setAddCityError("⚠️You have not entered any city⚠️");
@@ -36,14 +34,17 @@ const AllCities = () => {
         }
 
         else {
-            try {
 
+            try {
                 setIsAddingCity(true);
                 setAddCityError("");
                 const response = await fetch(url);
                 const data = await response.json();
                 const { main, name, sys, weather, coord } = data;
-                console.log(data);
+                if (data.message) {
+                    setIsAddingCity(false);
+                    return setAddCityError(`⚠️${data.message}⚠️`);
+                }
                 const weatherInfo: IWeatherInfo = {
                     name: name.toLowerCase(),
                     temperature: Math.round(main.temp),
@@ -57,7 +58,6 @@ const AllCities = () => {
                     humidity: main.humidity,
                     pressure: main.pressure
                 }
-                console.log(cities.length);
 
                 setCities([...cities, weatherInfo]);
                 setIsAddingCity(false);
@@ -66,8 +66,10 @@ const AllCities = () => {
             }
             catch (error: any) {
                 setIsAddingCity(false);
-                setAddCityError(`⚠️${error.message}⚠️`);
-                console.log(`⚠️${error.message}⚠️`);
+                if (error.message) {
+                    setAddCityError(`⚠️${error.message}⚠️`);
+                }
+
             }
 
         }
