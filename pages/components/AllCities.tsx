@@ -11,46 +11,66 @@ const AllCities = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [isSearchCity, setIsSearchCity] = useState(false);
     const [isAddingCity, setIsAddingCity] = useState(false);
-    const [isAddingCityError, setIsAddingCityError] = useState(false);
+    const [addCityError, setAddCityError] = useState("");
     const apiKey = `${process.env.API_KEY}`;
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${enteredCity}&appid=${apiKey}&units=metric`
     const [isFiveDaysForecastActive, setIsFiveDaysForecastActive] = useState(false);
     const [city, setCity] = useState<IWeatherInfo>();
     const addCity = async (event: FormEvent) => {
-        try {
-            event.preventDefault();
-            setIsAddingCity(true);
-            setIsAddingCityError(false);
-            const response = await fetch(url);
-            const data = await response.json();
-            const { main, name, sys, weather, coord } = data;
-            console.log(data);
-            const weatherInfo: IWeatherInfo = {
-                name: name.toLowerCase(),
-                temperature: Math.round(main.temp),
-                country: sys.country,
-                iconUrl: `http://openweathermap.org/img/wn/${weather[0]["icon"]}@4x.png`,
-                description: weather[0]["description"],
-                longitude: coord.lon,
-                latitude: coord.lat,
-                url: `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&exclude=current,hourly,minutely,alerts&units=metric&appid=${apiKey}`,
-                feelsLike: main.feels_like,
-                humidity: main.humidity,
-                pressure: main.pressure
-            }
-            console.log(weatherInfo);
-            if (!JSON.stringify(cities).includes(enteredCity.toLocaleLowerCase()) && cities.length < 20) {
+        event.preventDefault();
+        const duplicateCity = cities.filter((eachCity) => {
+           return eachCity.name.toLowerCase() === enteredCity.toLowerCase() 
+        
+        })
+        if (duplicateCity.length > 0) {
+            setAddCityError(`⚠️${enteredCity} has already been added`)
+           
+            console.log(duplicateCity.length)
+        }
+        else if (!enteredCity) {
+            setAddCityError("⚠️You have not entered any city⚠️");
+        }
+
+        else if (cities.length > 19) {
+            setAddCityError("⚠️You can only add up to 20 cities⚠️");
+        }
+
+        else {
+            try {
+
+                setIsAddingCity(true);
+                setAddCityError("");
+                const response = await fetch(url);
+                const data = await response.json();
+                const { main, name, sys, weather, coord } = data;
+                console.log(data);
+                const weatherInfo: IWeatherInfo = {
+                    name: name.toLowerCase(),
+                    temperature: Math.round(main.temp),
+                    country: sys.country,
+                    iconUrl: `http://openweathermap.org/img/wn/${weather[0]["icon"]}@4x.png`,
+                    description: weather[0]["description"],
+                    longitude: coord.lon,
+                    latitude: coord.lat,
+                    url: `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&exclude=current,hourly,minutely,alerts&units=metric&appid=${apiKey}`,
+                    feelsLike: main.feels_like,
+                    humidity: main.humidity,
+                    pressure: main.pressure
+                }
+                console.log(cities.length);
+
                 setCities([...cities, weatherInfo]);
+                setIsAddingCity(false);
+                setEnteredCity("")
+                setAddCityError("")
             }
-            setIsAddingCity(false);
-            console.log(JSON.stringify(cities.length));
-        }
-        catch {
-            setIsAddingCity(false);
-            setIsAddingCityError(true)
-        }
+            catch (error: any) {
+                setIsAddingCity(false);
+                setAddCityError(`⚠️${error.message}⚠️`);
+                console.log(`⚠️${error.message}⚠️`);
+            }
 
-
+        }
     }
     const maximumCity = 5
     const currentCity = cities.filter((_city, index) => {
@@ -93,7 +113,7 @@ const AllCities = () => {
                 <section className="main-section">
                     <NavigationBar />
                     <section className="main-contents">
-                        <AddAndSearchCity addCity={addCity} setEnteredCity={setEnteredCity} searchCity={searchCity} enteredCity={enteredCity} isAddingCity={isAddingCity} isAddingCityError={isAddingCityError} />
+                        <AddAndSearchCity addCity={addCity} setEnteredCity={setEnteredCity} searchCity={searchCity} enteredCity={enteredCity} isAddingCity={isAddingCity} addCityError={addCityError} />
                         <div className="card-container">
                             <div className="card no-city-card">
                                 <h1>You have not added any city yet</h1>
@@ -117,7 +137,7 @@ const AllCities = () => {
             <section className="main-section">
                 <NavigationBar />
                 <section className="main-contents">
-                    <AddAndSearchCity addCity={addCity} setEnteredCity={setEnteredCity} searchCity={searchCity} enteredCity={enteredCity} isAddingCity={isAddingCity} isAddingCityError={isAddingCityError} />
+                    <AddAndSearchCity addCity={addCity} setEnteredCity={setEnteredCity} searchCity={searchCity} enteredCity={enteredCity} isAddingCity={isAddingCity} addCityError={addCityError} />
                     <div className="card-container">
                         {
                             currentCity.map((city, index) => {

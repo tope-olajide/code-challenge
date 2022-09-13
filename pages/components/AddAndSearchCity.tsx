@@ -13,7 +13,7 @@ const AddAndSearchCity: React.FC<IAddAndSearchCityProps> = (props) => {
                         onChange={(e) => props.setEnteredCity(e.target.value)}
                         className="add-city-input-field"
                     />
-                    <span className="add-city-error" style={props.isAddingCityError ? { display: "block" } : { display: "none" }}><p>⚠️The city could not be added. Please try again ⚠️. </p></span>
+                    <span className="add-city-error" style={props.addCityError ? { display: "block" } : { display: "none" }}><p>{props.addCityError} </p></span>
                     <div className="button-container">
                         <button className="add-city-button" onClick={(event) => props.addCity(event)}>{props.isAddingCity ? "Fetching City..." : "Add City"}</button>
                         <button className="add-city-button" onClick={(event) => props.searchCity(event)}>Search City</button>

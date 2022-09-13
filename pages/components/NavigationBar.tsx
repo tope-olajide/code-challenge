@@ -27,7 +27,7 @@ const NavigationBar = () => {
                 <section className="themes-container-right">
                     <button onClick={() => { changeTheme(DataTheme.ThemeFour) }}></button>
                     <button onClick={() => { changeTheme(DataTheme.ThemeFive) }}></button>
-                    <button onClick={() => { changeTheme(DataTheme.ThemeOne) }}></button>
+                    <button onClick={() => { changeTheme(DataTheme.ThemeSix) }}></button>
 
                 </section>
             </section>

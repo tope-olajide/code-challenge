@@ -6,7 +6,7 @@ export interface IAddAndSearchCityProps {
     enteredCity: string;
     setEnteredCity(city: string): void;
     isAddingCity: boolean
-    isAddingCityError: boolean
+    addCityError: string
 }
 
 export interface IWeatherInfo {
