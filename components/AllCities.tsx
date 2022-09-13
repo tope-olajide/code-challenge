@@ -49,7 +49,7 @@ const AllCities = () => {
                     name: name.toLowerCase(),
                     temperature: Math.round(main.temp),
                     country: sys.country,
-                    iconUrl: `http://openweathermap.org/img/wn/${weather[0]["icon"]}@4x.png`,
+                    iconUrl: `https://openweathermap.org/img/wn/${weather[0]["icon"]}@4x.png`,
                     description: weather[0]["description"],
                     longitude: coord.lon,
                     latitude: coord.lat,

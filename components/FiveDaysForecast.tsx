@@ -98,7 +98,7 @@ const FiveDaysForecast = (props: IFiveDaysForecastProps) => {
                                         <p className="card-title">{day.name}</p>
                                         <h3>{new Date(day.dt * 1000).toLocaleDateString("en", { weekday: "long" })}</h3>
                                         <picture className="card-image">
-                                            <img src={`http://openweathermap.org/img/wn/${day.weather[0]["icon"]}@4x.png`} alt="" />
+                                            <img src={`https://openweathermap.org/img/wn/${day.weather[0]["icon"]}@4x.png`} alt="" />
                                         </picture>
                                         <h2 className="temperature">{Math.round(day.temp.day)}<sup>o</sup><span><p className="celcius">C</p></span></h2>
                                         <p className="weather-description">{day.weather[0]["description"]}</p>

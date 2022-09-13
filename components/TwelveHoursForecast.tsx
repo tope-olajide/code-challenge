@@ -84,7 +84,7 @@ const TwelveHoursForecast = (props:ITwelveHoursForecastProps) => {
                                     <div key={index} className="card">
                                         <h3 className="card-title">{new Date(cityInfo.dt * 1000).toLocaleTimeString("en-US")}</h3>
                                         <picture>
-                                            <img src={` http://openweathermap.org/img/wn/${cityInfo.weather[0]["icon"]}@4x.png`} alt="" />
+                                            <img src={` https://openweathermap.org/img/wn/${cityInfo.weather[0]["icon"]}@4x.png`} alt="" />
                                             <h2 className="temperature">{Math.round(cityInfo.main.temp)}<sup>o</sup><span><p className="celcius">C</p></span></h2>
                                         </picture>
 
