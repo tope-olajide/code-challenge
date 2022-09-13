@@ -1,6 +1,6 @@
 import NavigationBar from "./NavigationBar"
 import Footer from "./Footer"
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import AddAndSearchCity from "./AddAndSearchCity";
 import FiveDaysForecast from "./FiveDaysForecast"
 import { IWeatherInfo } from "../types";
@@ -12,15 +12,27 @@ const AllCities = () => {
     const [isSearchCity, setIsSearchCity] = useState(false);
     const [isAddingCity, setIsAddingCity] = useState(false);
     const [addCityError, setAddCityError] = useState("");
+    const [isPaginationActive, setIsPaginationActive] = useState(false);
+    const [isMaximumCity, setIsMaximumCity] = useState(false);
+
+    useEffect(() => {
+        if(cities.length >= 5){
+            setIsPaginationActive(true)
+        }
+        if(cities.length === 20){
+            setIsMaximumCity(true)
+        }
+
+    }, [cities.length])
     const apiKey = `${process.env.API_KEY}`;
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${enteredCity}&appid=${apiKey}&units=metric`
     const [isFiveDaysForecastActive, setIsFiveDaysForecastActive] = useState(false);
     const [city, setCity] = useState<IWeatherInfo>();
+
     const addCity = async (event: FormEvent) => {
         event.preventDefault();
         const duplicateCity = cities.filter((eachCity) => {
             return eachCity.name.toLowerCase() === enteredCity.toLowerCase()
-
         })
         if (duplicateCity.length > 0) {
             setAddCityError(`⚠️${enteredCity} has already been added`)
@@ -29,7 +41,7 @@ const AllCities = () => {
             setAddCityError("⚠️You have not entered any city⚠️");
         }
 
-        else if (cities.length > 19) {
+        else if (isMaximumCity) {
             setAddCityError("⚠️You can only add up to 20 cities⚠️");
         }
 
@@ -156,7 +168,7 @@ const AllCities = () => {
                                     </div>)
                             })
                         }
-                    </div><div className="pagination-container">
+                    </div><div className="pagination-container" style={isPaginationActive?{display:"flex"}:{display:"none"}}>
                         <button onClick={previousCities}>&larr;</button>
                         <button onClick={nextCities}>&rarr;</button>
                     </div>
