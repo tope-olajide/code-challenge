@@ -98,8 +98,11 @@ const AllCities = () => {
     }
     const searchCity = (event: FormEvent) => {
         event.preventDefault();
-        setAddCityError("");
-        setIsSearchCity(true);
+        if (cities.length) {
+            setAddCityError("");
+            setIsSearchCity(true);
+        }
+
     }
     const displayFiveDaysForecast = (city: IWeatherInfo) => {
         if (isSearchCity) {
