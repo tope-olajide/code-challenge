@@ -3,7 +3,7 @@ import Footer from "./Footer"
 import { FormEvent, useState } from "react";
 import AddAndSearchCity from "./AddAndSearchCity";
 import FiveDaysForecast from "./FiveDaysForecast"
-import { IWeatherInfo } from "../types";
+import { IWeatherInfo } from "../../types";
 
 const AllCities = () => {
     const [enteredCity, setEnteredCity] = useState("");
@@ -88,7 +88,6 @@ const AllCities = () => {
         setIsSearchCity(true);
     }
     const displayFiveDaysForecast = (city: IWeatherInfo) => {
-        console.log(city);
         setCity(city);
         setIsFiveDaysForecastActive(true);
         if (isSearchCity) {
@@ -98,13 +97,11 @@ const AllCities = () => {
     const previousCities = () => {
         if ((currentPage - 1) !== 0) {
             setCurrentPage(currentPage - 1);
-            console.log(currentPage);
         }
     }
     const nextCities = () => {
         if (cities.length > currentPage * 5) {
             setCurrentPage(currentPage + 1)
-            console.log(cities.length > currentPage * 5)
         }
     }
     if (!cities.length) {

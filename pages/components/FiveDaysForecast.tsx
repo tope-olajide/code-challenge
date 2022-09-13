@@ -3,7 +3,7 @@ import TwelveHoursForecast from "./TwelveHoursForecast";
 import Loader from "./Loader";
 import NavigationBar from "./NavigationBar";
 import Footer from "./Footer";
-import { IFiveDaysForecastDataObjects, IFiveDaysForecastProps } from "../types";
+import { IFiveDaysForecastDataObjects, IFiveDaysForecastProps } from "../../types";
 
 
 const FiveDaysForecast = (props: IFiveDaysForecastProps) => {
