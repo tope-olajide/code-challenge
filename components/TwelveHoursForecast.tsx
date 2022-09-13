@@ -10,23 +10,18 @@ const TwelveHoursForecast = (props:ITwelveHoursForecastProps) => {
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
-
         const fetchData = async () => {
             setIsLoading(true)
             const data = await fetch(props.twelveHoursForecastURL);
             const response = await data.json();
-            console.log(`${process.env.API_KEY}`)
             setData(response);
-
             setIsLoading(false);
- 
             const twelveHoursForecast = response.list.filter((eachHour:ICityInfo) => {
                 if (new Date(props.day * 1000).toLocaleDateString("en-US") === new Date(eachHour.dt * 1000).toLocaleDateString("en-US")) {
                     return new Date(eachHour.dt * 1000).toLocaleString("en-US")
                 }
             })
             setData(twelveHoursForecast);
-            console.log(twelveHoursForecast);
         }
         fetchData()
             .catch(() => {

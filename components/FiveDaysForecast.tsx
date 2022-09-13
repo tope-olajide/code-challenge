@@ -19,7 +19,6 @@ const FiveDaysForecast = (props: IFiveDaysForecastProps) => {
             const response = await data.json();
             setIsLoading(false)
             setData(response.daily);
-            console.log(response.daily)
         }
         fetchData()
             .catch(() => {

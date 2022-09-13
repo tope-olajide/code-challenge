@@ -17,10 +17,10 @@ const AllCities = () => {
     const [isMaximumCity, setIsMaximumCity] = useState(false);
 
     useEffect(() => {
-        if(cities.length >= 5){
+        if (cities.length >= 5) {
             setIsPaginationActive(true)
         }
-        if(cities.length === 20){
+        if (cities.length === 20) {
             setIsMaximumCity(true)
         }
 
@@ -36,7 +36,7 @@ const AllCities = () => {
             return eachCity.name.toLowerCase() === enteredCity.toLowerCase()
         })
         if (duplicateCity.length) {
-            setAddCityError(`⚠️${enteredCity} has already been added`)
+            setAddCityError(`⚠️${enteredCity.toUpperCase()} has already been added`)
         }
         else if (!enteredCity) {
             setAddCityError("⚠️You have not entered any city⚠️");
@@ -45,9 +45,7 @@ const AllCities = () => {
         else if (isMaximumCity) {
             setAddCityError("⚠️You can only add up to 20 cities⚠️");
         }
-
         else {
-
             try {
                 setIsAddingCity(true);
                 setAddCityError("");
@@ -100,14 +98,16 @@ const AllCities = () => {
     }
     const searchCity = (event: FormEvent) => {
         event.preventDefault();
+        setAddCityError("");
         setIsSearchCity(true);
     }
     const displayFiveDaysForecast = (city: IWeatherInfo) => {
-        setCity(city);
-        setIsFiveDaysForecastActive(true);
         if (isSearchCity) {
             setIsSearchCity(false);
         }
+        setCity(city);
+        setIsFiveDaysForecastActive(true);
+
     }
     const previousCities = () => {
         if ((currentPage - 1) !== 0) {
@@ -140,10 +140,10 @@ const AllCities = () => {
             </>
         )
     }
-    if (isSearchCity){
+    if (isSearchCity) {
         return (
             <>
-            <SearchCityResult closeCity={closeCity} displayFiveDaysForecast={displayFiveDaysForecast} foundCity={foundCity}/>
+                <SearchCityResult closeCity={closeCity} displayFiveDaysForecast={displayFiveDaysForecast} foundCity={foundCity} />
             </>
         )
     }
@@ -179,7 +179,7 @@ const AllCities = () => {
                                     </div>)
                             })
                         }
-                    </div><div className="pagination-container" style={isPaginationActive?{display:"flex"}:{display:"none"}}>
+                    </div><div className="pagination-container" style={isPaginationActive ? { display: "flex" } : { display: "none" }}>
                         <button onClick={previousCities}>&larr;</button>
                         <button onClick={nextCities}>&rarr;</button>
                     </div>
