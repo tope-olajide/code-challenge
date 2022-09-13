@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import NavigationBar from "./NavigationBar";
 import Loader from "./Loader";
 import Footer from "./Footer";
-import { ICityInfo, ITwelveHoursForecastProps } from "../../types";
+import { ICityInfo, ITwelveHoursForecastProps } from "../types";
 
 const TwelveHoursForecast = (props:ITwelveHoursForecastProps) => {
     const [data, setData] = useState<Array<ICityInfo>>([])

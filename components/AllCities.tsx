@@ -3,7 +3,7 @@ import Footer from "./Footer"
 import { FormEvent, useState } from "react";
 import AddAndSearchCity from "./AddAndSearchCity";
 import FiveDaysForecast from "./FiveDaysForecast"
-import { IWeatherInfo } from "../../types";
+import { IWeatherInfo } from "../types";
 
 const AllCities = () => {
     const [enteredCity, setEnteredCity] = useState("");

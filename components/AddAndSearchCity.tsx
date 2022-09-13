@@ -1,5 +1,5 @@
 
-import { IAddAndSearchCityProps } from "../../types";
+import { IAddAndSearchCityProps } from "../types";
 
 
 const AddAndSearchCity: React.FC<IAddAndSearchCityProps> = (props) => {

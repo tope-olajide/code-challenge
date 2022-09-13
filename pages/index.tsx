@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import AllCities from './components/AllCities'
+import AllCities from '../components/AllCities'
 
 const Home: NextPage = () => {
   return (
