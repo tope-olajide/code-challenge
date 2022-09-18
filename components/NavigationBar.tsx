@@ -12,11 +12,10 @@ const NavigationBar = () => {
     const changeTheme = (themeColor: DataTheme) => {
         document.documentElement.setAttribute('data-theme', themeColor);
         setCurrentTheme(themeColor)
-        console.log(currentTheme);
     }
     return (
         <>
-            <section className="main-header">
+            <section data-testid="navigation-bar" className="main-header">
                 <section className="themes-container-left">
                     <button onClick={() => { changeTheme(DataTheme.ThemeOne) }}></button>
                     <button onClick={() => { changeTheme(DataTheme.ThemeTwo) }}></button>

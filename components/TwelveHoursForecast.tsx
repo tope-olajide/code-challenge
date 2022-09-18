@@ -14,7 +14,7 @@ const TwelveHoursForecast = (props:ITwelveHoursForecastProps) => {
             setIsLoading(true)
             const data = await fetch(props.twelveHoursForecastURL);
             const response = await data.json();
-            setData(response);
+            
             setIsLoading(false);
             const twelveHoursForecast = response.list.filter((eachHour:ICityInfo) => {
                 if (new Date(props.day * 1000).toLocaleDateString("en-US") === new Date(eachHour.dt * 1000).toLocaleDateString("en-US")) {
@@ -76,13 +76,12 @@ const TwelveHoursForecast = (props:ITwelveHoursForecastProps) => {
                         {
                             data.slice(0, 5).map((cityInfo, index) => {
                                 return (
-                                    <div key={index} className="card">
+                                    <div key={index} className="card" data-testid="card">
                                         <h3 className="card-title">{new Date(cityInfo.dt * 1000).toLocaleTimeString("en-US")}</h3>
                                         <picture>
                                             <img src={` https://openweathermap.org/img/wn/${cityInfo.weather[0]["icon"]}@4x.png`} alt="" />
                                             <h2 className="temperature">{Math.round(cityInfo.main.temp)}<sup>o</sup><span><p className="celcius">C</p></span></h2>
                                         </picture>
-
                                         <p className="weather-description">{cityInfo.weather[0]["description"]}</p>
                                     </div>)
                             })

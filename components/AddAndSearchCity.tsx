@@ -6,7 +6,7 @@ const AddAndSearchCity: React.FC<IAddAndSearchCityProps> = (props) => {
     return (
         <>
             <div>
-                <form className="add-and-search-city-form">
+                <form data-testid="add-and-search-city-form" className="add-and-search-city-form">
                     <input
                         type="text"
                         value={props.enteredCity}
@@ -15,7 +15,7 @@ const AddAndSearchCity: React.FC<IAddAndSearchCityProps> = (props) => {
                     />
                     <span className="add-city-error" style={props.addCityError ? { display: "block" } : { display: "none" }}><p>{props.addCityError} </p></span>
                     <div className="button-container">
-                        <button className="add-city-button" onClick={(event) => props.addCity(event)}>{props.isAddingCity ? "Fetching City..." : "Add City"}</button>
+                        <button className="add-city-button" onClick={(event) => props.addCity(event)}>{props.isAddingCity ? "Fetching City Forecast..." : "Add City"}</button>
                         <button className="add-city-button" onClick={(event) => props.searchCity(event)}>Search City</button>
                     </div>
 

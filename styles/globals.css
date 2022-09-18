@@ -216,8 +216,15 @@ body {
   display: flex;
   justify-content: space-between;
   margin: 50px 0;
+  align-items: center;
 }
-
+.pageNumber{
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 10px 30px;
+  margin: 0;
+  border-radius: 5px;
+}
 .pagination-container button,
 .back-button {
   padding: 10px;
@@ -231,6 +238,7 @@ body {
   width: 80px;
   cursor: pointer;
 }
+
 .back-button {
   font-size: 20px;
   margin-left: 40px;
@@ -378,7 +386,9 @@ footer a {
   .forecast-title{
     font-size: 20px;
   }
-}
+  .pageNumber{
+    padding: 5px 15px;
+}}
 @media only screen and (max-width: 280px) {
   .themes-container-left button,
   .themes-container-right button {
