@@ -13,11 +13,11 @@ export interface IWeatherInfo {
     name: string;
     temperature: number;
     country: string;
-    iconUrl: string;
+    weatherIconURL: string;
     description: string;
     longitude: number;
     latitude: number;
-    url: string;
+    fiveDaysForecastURL: string;
     feelsLike: number;
     humidity: number;
     pressure: number;
@@ -25,7 +25,7 @@ export interface IWeatherInfo {
 
 export interface IFiveDaysForecastProps {
     closeFiveDaysForecasts(): void;
-    city: IWeatherInfo | undefined;
+    city: IWeatherInfo;
 }
 
 export interface IFiveDaysForecastDataObjects {
@@ -65,4 +65,8 @@ export interface ISearchCityResultProps{
     foundCity:IWeatherInfo[];
     closeCity():void;
     displayFiveDaysForecast(city:IWeatherInfo):void
+}
+export interface IAllCitiesProps {
+    currentCity: IWeatherInfo[];
+    displayFiveDaysForecast(city: IWeatherInfo): void;
 }

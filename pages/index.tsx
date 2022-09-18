@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
-import AllCities from '../components/AllCities'
+import MainPage from '../components/MainPage'
 
 const Home: NextPage = () => {
   return (
     <>
-      <AllCities />
+      <MainPage />
     </>
   )
 }
