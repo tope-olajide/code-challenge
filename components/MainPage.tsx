@@ -105,7 +105,7 @@ const MainPage = () => {
         return index >= ((currentPage - 1) * maximumCity) && index <= (currentPage * maximumCity) - 1
     })
     const foundCity = currentCity.filter((city) => {
-        return city.name.toLowerCase() === enteredCity.toLowerCase()
+        return city.name.toLowerCase().trim() === enteredCity.toLowerCase().trim()
     });
 
     const closeFiveDaysForecasts = () => {
